@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit"/>
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta content="yes" name="apple-touch-fullscreen">
+        <title>H5</title>
+        <script>
+        	//添加viewport-mate标签缩放网页。
+			!function(userAgent){
+				if(!!userAgent.match(/AppleWebKit.*Mobile.*/)){
+					var screen_w = parseInt(window.screen.width),scale = screen_w / 750;
+				    if (/Android (\d+\.\d+)/.test(userAgent)) {
+				        var version = parseFloat(RegExp.$1);
+				        if(userAgent.indexOf("MX")>-1&&version>=5){
+				        	//alert(userAgent)
+				        	document.write('<meta name="viewport" content="width=750,minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">');
+				        }else{
+				        	document.write(version > 2.3 ? '<meta name="viewport" content="width=750, minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">': '<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');
+				        };
+				    } else {
+				        document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">');
+				    }
+				}	    
+			}(navigator.userAgent);
+        </script>
+        <link rel="shortcut icon" href="/favicon.ico"/>
+		<link rel="bookmark" href="/favicon.ico"/>
+		<!-- build:css -->
+    	<link rel="stylesheet" href="./static/css/base/marquee.css">
+    	<link rel="stylesheet" href="./static/css/base/base.css">
+    	<link rel="stylesheet" href="./static/css/index.css">
+		<!-- endbuild -->
+    </head>
+    <body>
+    	<div class="main-container">
+    		<div class="tags">
+    			<a class="tag">
+    				马上参与
+    			</a>
+    			<a class="tag">
+    				活动规则
+    			</a>
+    			<a class="tag">
+    				奖项说明
+    			</a>
+    		</div>
+    		<div class="bottom-bar">
+    			10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月299999日，xxx，获得4999元购车抵用券。
+    		</div>
+    		<a class="btn">马上参与</a>
+    	</div>
+    	<div class="mask-shadow"></div>
+    	<div class="dialog" style="display: none;">
+    		<div class="dialog-wrapper">
+    			<div class="car"></div>
+    			<div class="content-wrapper fn-clear">
+    				<h3>填写资料,速领红包</h3>
+    				<div class="line">
+    					<span class="tag">姓名</span>
+    					<input type="text" class="big"/>
+    				</div>
+    				<div class="line">
+    					<span class="tag">性别</span>
+    					<div class="select open">
+	    					<select class="big">
+	    						<option value="请选择">请选择</option>
+	    						<option value="0">男</option>
+	    						<option value="1">女</option>
+	    					</select>
+    					</div>
+    				</div>
+    				<div class="line">
+    					<span class="tag">姓名</span>
+    					<input type="number" class="big"/>
+    				</div>
+    				<div class="line flex">
+    					<span class="tag">验证码</span>
+    					<input type="number" class="small"/>
+    					<a class="code">发送验证码</a>
+    				</div>
+    				<div class="line flex">
+    					<span class="tag">验证码</span>
+    					<div class="select">
+	    					<select class="small province">
+	    						<option value="请选择">省份</option>
+	    						<option value="1">上海</option>
+	    						<option value="0">内蒙古</option>
+	    					</select>
+    					</div>
+    					<div class="select">
+	    					<select class="small city">
+	    						<option value="请选择">市区</option>
+	    						<option value="0">浦东新区</option>
+	    						<option value="1">普陀区</option>
+	    					</select>
+    					</div>
+    				</div>
+    				<a class="submit">提交资料</a>
+    			</div>
+    		</div>
+    	</div>
+    </body>
+	<!-- build:js -->
+	<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js"></script>
+	<script>
+		require(['./static/js/index.js']);
+	</script>
+	<!-- endbuild -->
+</html>

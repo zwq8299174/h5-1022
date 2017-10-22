@@ -1,0 +1,33 @@
+.bottom-bar{position: absolute;bottom:0;width:100%;color:#fff;background-color: rgba(0,0,0,0.3);height: 66px;line-height: 66px;font-size:24px;}
+
+.btn{display: inline-block;width:252px; height: 80px;line-height: 80px;text-align: center;font-size:42px;color:#bd0505;background-color: #fff;border-radius:10px;position: absolute;bottom:100px;left:50%; margin-left:-126px;}
+
+.tags{position: absolute;left:0;width:31px;height: 445px;display: flex; bottom:350px;align-items: flex-start;flex-wrap: wrap;}
+.tags .tag{width:31px;height:135px;background: url(../img/tag.png) top center no-repeat;text-align: center;line-height:24px;font-size:22px;display: flex;align-items: center;}
+
+
+.dialog{width:646px;height:870px;position: absolute;z-index: 1050; left:50%;top:50%;margin-left:-323px;margin-top: -435px;border-radius:10px;border:10px solid #bd0505;background:#fff;}
+.dialog-wrapper{width:616px;height:840px;border-radius:10px;border:3px solid #bd0505;margin-left: 5px;margin-top: 5px;padding:58px 30px 0 30px;}
+.car{background: url(../img/car.png) top left no-repeat;width: 393px;height:192px;position: absolute;left:-70px;top:-53px;}
+
+
+.content-wrapper{width: 100%;text-align: center;}
+.dialog h3{height:148px;line-height: 148px;width: 100%; text-align: center;font-size: 43px;float:left;}
+.dialog .line{float:left;width: 100%;margin-bottom:30px;}
+.dialog .line.flex{display:flex;justify-content: space-between;}
+.dialog .tag{float:left;display:inline-block;font-size:28px;line-height:58px;}
+.dialog input,.dialog select{background-color: #fff;  font-size:28px; border:1px solid #7d7d7d;border-radius:5px;height:58px;line-height:56px;float:right;padding:0 10px;}
+.dialog .big{width: calc(100% - 80px);}
+.dialog .small{width:176px;}
+.dialog .code{color:#20a9ad;font-size:28px;line-height:58px;}
+.select{position: relative;}
+.select:after{font-family: 'iconfont'; position: absolute;content:"\e600";font-size:24px;line-height:60px;top:0;right: 15px;color:#d6d6d6;
+transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
+-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	transition: all 0.5s ease;}
+.select.open:after{transform:rotate(180deg);}
+
+.submit{width:482px;height:80px;line-height: 80px;text-align: center;color:#fff;font-size: 42px;background-color: #bd0505;display: inline-block;border-radius:10px;margin-top: 50px;}
