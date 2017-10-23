@@ -54,54 +54,100 @@
     		<a class="btn">马上参与</a>
     	</div>
     	<div class="mask-shadow"></div>
-    	<div class="dialog" style="display: none;">
+    	<div class="dialog form-submit">
     		<div class="dialog-wrapper">
     			<div class="car"></div>
     			<div class="content-wrapper fn-clear">
     				<h3>填写资料,速领红包</h3>
     				<div class="line">
     					<span class="tag">姓名</span>
-    					<input type="text" class="big"/>
+    					<input type="text" class="big name"/>
     				</div>
     				<div class="line">
     					<span class="tag">性别</span>
     					<div class="select open">
-	    					<select class="big">
-	    						<option value="请选择">请选择</option>
+	    					<select class="big sex">
+	    						<option value="">请选择</option>
 	    						<option value="0">男</option>
 	    						<option value="1">女</option>
 	    					</select>
     					</div>
     				</div>
     				<div class="line">
-    					<span class="tag">姓名</span>
-    					<input type="number" class="big"/>
+    					<span class="tag">手机</span>
+    					<input type="number" class="big mobile"/>
     				</div>
     				<div class="line flex">
     					<span class="tag">验证码</span>
-    					<input type="number" class="small"/>
-    					<a class="code">发送验证码</a>
+    					<input type="number" class="small code"/>
+    					<a class="send-code">发送验证码</a>
     				</div>
     				<div class="line flex">
-    					<span class="tag">验证码</span>
+    					<span class="tag">所在地区</span>
     					<div class="select">
 	    					<select class="small province">
-	    						<option value="请选择">省份</option>
+	    						<option value="">省份</option>
 	    						<option value="1">上海</option>
 	    						<option value="0">内蒙古</option>
 	    					</select>
     					</div>
     					<div class="select">
 	    					<select class="small city">
-	    						<option value="请选择">市区</option>
+	    						<option value="">市区</option>
 	    						<option value="0">浦东新区</option>
 	    						<option value="1">普陀区</option>
 	    					</select>
     					</div>
     				</div>
+    				<p class="error-msg fn-left">请完整填写资料</p>
     				<a class="submit">提交资料</a>
     			</div>
     		</div>
+    	</div>
+    	<div class="dialog awards fn-hide">
+    		<div class="dialog-wrapper">
+    			<div class="car"></div>
+    			<div class="content-wrapper fn-clear">
+    				<h3 class="red">奖项说明</h3>
+    				<div class="info">
+    					奖励机制：购车券及兑换券针对10月26日至11月7日期间下订用户有效，4999元购车抵用券不得与其他优惠共同享有
+    				</div>
+    				<div class="info b">
+    					<p>大奖：4999元购车抵用券 6张</p>
+    					<p>幸运参与奖：价值50-150元的E100周边精品附件</p>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="dialog rules fn-hide">
+    		<div class="dialog-wrapper">
+    			<div class="car"></div>
+    			<div class="content-wrapper fn-clear">
+    				<h3>奖项说明</h3>
+    				<p class="key">活动规则：</p>
+    				<p>● 参与摇红包活动即有机会获得活动大奖:4999元购车抵用券将在10月27日至11月1日每天公布1名获奖者，一共有6名获奖者获得最高价值为4999元的购车优惠券</p>
+    				<p>● 参与摇红包活动赢奖品，摇到的奖品仅针对10月26日至11月7日期间下订单的用户在支付尾款时兑换有效，其他情况均视为无效</p>
+    				<p>● 4999元购车抵用券不能与其它优惠活动叠加</p>
+				<p>● 优惠券及兑换券均不能转让，均只能在交付尾款时使用</p>
+				<p>● 10月26日至11月7日期间下订用户，均可使用此活动的优惠券</p>
+				<p>● 如果存在刷券行为的用户，此次活动获得的优惠券及兑换券作废</p>
+				<p>● 最终解释权归上汽通用五菱汽车股份有限公司所有</p>
+				<p class="key">活动大奖：4999元购车抵用券</p>
+				<p class="key">幸运参与奖：价值50-150元的E100周边精品附件</p>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="already fn-hide">
+    		<div class="dialog-wrapper">
+    			<div class="top">
+    				<img src="./static/img/top.png"/>
+    				<div class="car"></div>
+    			</div>
+    			<div class="content-wrapper fn-clear">
+    				您已成功参与本次摇红包活动，明天中午12点整抽取4999元终极大奖，欢迎多加关注！
+    			</div>
+    			<a class="share">分享好友</a>
+		</div>
     	</div>
     </body>
 	<!-- build:js -->

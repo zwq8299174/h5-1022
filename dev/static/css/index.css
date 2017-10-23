@@ -6,9 +6,9 @@
 .tags .tag{width:31px;height:135px;background: url(../img/tag.png) top center no-repeat;text-align: center;line-height:24px;font-size:22px;display: flex;align-items: center;}
 
 
-.dialog{width:646px;height:870px;position: absolute;z-index: 1050; left:50%;top:50%;margin-left:-323px;margin-top: -435px;border-radius:10px;border:10px solid #bd0505;background:#fff;}
-.dialog-wrapper{width:616px;height:840px;border-radius:10px;border:3px solid #bd0505;margin-left: 5px;margin-top: 5px;padding:58px 30px 0 30px;}
-.car{background: url(../img/car.png) top left no-repeat;width: 393px;height:192px;position: absolute;left:-70px;top:-53px;}
+.dialog{width:646px;position: absolute;z-index: 1050; left:50%;top:50%;margin-left:-323px;margin-top: -435px;border-radius:10px;border:10px solid #bd0505;background:#fff;}
+.dialog .dialog-wrapper{width:616px;border-radius:10px;border:3px solid #bd0505;margin-left: 5px;margin-top: 5px;padding:58px 30px 60px;margin-bottom: 5px;}
+.dialog .car{background: url(../img/car.png) top left no-repeat;width: 393px;height:192px;position: absolute;left:-70px;top:-53px;}
 
 
 .content-wrapper{width: 100%;text-align: center;}
@@ -29,5 +29,20 @@ transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
 	-ms-transition: all 0.5s ease;
 	transition: all 0.5s ease;}
 .select.open:after{transform:rotate(180deg);}
+.dialog .error-msg{height: 50px;line-height: 50px;color:#BD0505;font-size:22px;}
+.submit{width:482px;height:80px;line-height: 80px;text-align: center;color:#fff;font-size: 42px;background-color: #bd0505;display: inline-block;border-radius:10px;}
 
-.submit{width:482px;height:80px;line-height: 80px;text-align: center;color:#fff;font-size: 42px;background-color: #bd0505;display: inline-block;border-radius:10px;margin-top: 50px;}
+
+
+.dialog .info{font-size:24px;text-align: left;margin-bottom: 30px;line-height: 32px;}
+.dialog .info.b{font-weight: bold;}
+
+.rules .content-wrapper{font-size:22px;line-height:38px;text-align: left;}
+.rules .content-wrapper p.key{font-size:24px;}
+
+.already{width:646px;position: absolute;z-index: 1050; left:50%;top:50%;margin-left:-323px;margin-top: -435px;border-radius:10px;border:10px solid #bd0505;background:#fff;}
+.already .top{position: relative;}
+.already .top .car{background: url(../img/car.png) top left no-repeat;width: 393px;height:192px;position: absolute;left:0px;top:0px;}
+.already .content-wrapper{text-align: left;line-height: 48px;font-size:30px;padding:70px 50px 0;}
+.already .dialog-wrapper{text-align: center;padding-bottom: 70px;}
+.already .share{width: 218px;height: 70px;text-align: center;line-height: 70px;border-radius:10px;background-color: #bd0505;color:#fff;display: inline-block;margin-top: 110px;font-size:36px;}
