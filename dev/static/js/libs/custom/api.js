@@ -8,7 +8,7 @@ define(['ajax','baseSet'],function(a,b){
 	return{
 		getProvince:function(suc){
 			a.ajaxPost({
-				url:b.postServer+'campaign/getProvinceList',
+				url:b.postServer+'getProvinceList',
 				success:function(data){
 					suc(data);
 				}
@@ -16,7 +16,7 @@ define(['ajax','baseSet'],function(a,b){
 		},
 		getCity:function(id,suc){
 			a.ajaxPost({
-				url:b.postServer+'campaign/getCityList',
+				url:b.postServer+'getCityList',
 				data:{
 					provinceId:id
 				},
@@ -27,7 +27,7 @@ define(['ajax','baseSet'],function(a,b){
 		},
 		binding:function(data,suc){
 			a.ajaxPost({
-				url:b.postServer+'campaign/binding',
+				url:b.postServer+'binding',
 				data:data,
 				success:function(data){
 					suc(data);
@@ -36,7 +36,7 @@ define(['ajax','baseSet'],function(a,b){
 		},
 		draw:function(suc){
 			a.ajaxPost({
-				url:b.postServer+'campaign/draw',
+				url:b.postServer+'draw',
 				success:function(data){
 					suc(data);
 				}
@@ -44,7 +44,7 @@ define(['ajax','baseSet'],function(a,b){
 		},
 		getWinnerList:function(suc){
 			a.ajaxPost({
-				url:b.postServer+'campaign/getWinnerList',
+				url:b.postServer+'getWinnerList',
 				success:function(data){
 					suc(data);
 				}
@@ -52,7 +52,7 @@ define(['ajax','baseSet'],function(a,b){
 		},
 		sendCode:function(suc){
 			a.ajaxPost({
-				url:b.postServer+'campaign/sendCode',
+				url:b.postServer+'sendCode',
 				success:function(data){
 					suc(data);
 				}

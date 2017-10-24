@@ -21,6 +21,7 @@
 transition: all 0.2s ease;
 }
 .dialog input:focus,.dialog select:focus{border-color:#20a9ad;box-shadow:0 0 15px rgba(32,169,173,0.8);}
+.dialog select{padding-right:50px;}
 .dialog .error{border-color:#bd0505;box-shadow:0 0 15px rgba(189,5,5,0.8);}
 .dialog .big{width: calc(100% - 80px);}
 .dialog .small{width:176px;}
@@ -45,6 +46,7 @@ transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
 .dialog .info:last-child{margin-bottom: 0;}
 .dialog .info.b{font-weight: bold;}
 
+.rules .close{top:-95px;}
 .rules .dialog-wrapper{padding:0 30px 30px;}
 .rules h3{line-height:100px;height:100px;}
 .rules .content-wrapper{font-size:22px;line-height:38px;text-align: left;}
@@ -80,12 +82,12 @@ transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
 .red-bag-rain{position: absolute;z-index: 1050; top:0;left:0;right: 0;bottom: 0;}
 .time-bar{width: 80%;margin-left: 10%;position: relative;margin-top: 54px;}
 .time-bar i{font-size:60px;color:#fff;display: inline-block;width: 60px;height: 60px;border-radius:50%;background-color: #f2ac2d;line-height:60px;position: absolute;top:-14px;}
-.time-bar .bar{height: 32px;width: calc(100% - 20px);margin-left: 20px; background-color: #f2ac2d;border-radius:16px; -webkit-transition: all 10s linear;
+.time-bar .bar{height: 32px;width: calc(100% - 20px);margin-left: 20px; background-color: #f2ac2d;border-radius:16px; }
+.time-bar.end .bar{width:0;-webkit-transition: all 10s linear;
 	-moz-transition: all 10s linear;
 	-o-transition: all 10s linear;
 	-ms-transition: all 10s linear;
 	transition: all 10s linear;}
-.time-bar.end .bar{width:0;}
 
 .red-bag-rain .rain-wrap{width:100%;position: absolute; top:130px;bottom:0;overflow:hidden;}
 
