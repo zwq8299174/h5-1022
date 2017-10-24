@@ -25,15 +25,36 @@ define(['ajax','baseSet'],function(a,b){
 				}
 			});
 		},
-		login:function(postData,suc,con){
+		binding:function(data,suc){
 			a.ajaxPost({
-				url:'/v1/login',
-				data:postData,
+				url:b.postServer+'campaign/binding',
+				data:data,
 				success:function(data){
 					suc(data);
-				},
-				complete:function(data){
-					con(data);
+				}
+			});
+		},
+		draw:function(suc){
+			a.ajaxPost({
+				url:b.postServer+'campaign/draw',
+				success:function(data){
+					suc(data);
+				}
+			});
+		},
+		getWinnerList:function(suc){
+			a.ajaxPost({
+				url:b.postServer+'campaign/getWinnerList',
+				success:function(data){
+					suc(data);
+				}
+			});
+		},
+		sendCode:function(suc){
+			a.ajaxPost({
+				url:b.postServer+'campaign/sendCode',
+				success:function(data){
+					suc(data);
 				}
 			});
 		}

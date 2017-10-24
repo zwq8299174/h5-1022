@@ -28,12 +28,12 @@ define(['jquery'],function($){
 				success:function(e){
 					//……成功方法
 //					console.log('success'+e);
-					var result=e.code=='0'?true:false;
+					var result=e.code=='200'?true:false;
 					if(result){
-						suc(e);
+						suc(e.data);
 					}else{
 						alert(e.msg);
-					}
+					}          
 				},
 				complete:function(e){
 					//console.log(e)
@@ -51,7 +51,7 @@ define(['jquery'],function($){
 			};
 			postModel = this.extend(postModel,obj);
 			postModel.data = JSON.stringify(postModel.data);
-			//console.log(postModel);
+			console.log(postModel);
 			//执行ajax
 			$.ajax(postModel);
 		},
@@ -65,9 +65,9 @@ define(['jquery'],function($){
 				success:function(e){
 					//……成功方法
 					//console.log(e);
-					var result=e.code=='0'?true:false;
+					var result=e.code=='200'?true:false;
 					if(result){
-						suc(e);
+						suc(e.data);
 					}else{
 						alert(e.msg);
 					}

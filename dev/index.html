@@ -48,9 +48,7 @@
     				奖项说明
     			</a>
     		</div>
-    		<div class="bottom-bar">
-    			10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月27日，xxx，获得4999元购车抵用券。10月299999日，xxx，获得4999元购车抵用券。
-    		</div>
+    		<div class="bottom-bar"></div>
     		<a class="btn join">马上参与</a>
     	</div>
     	<div class="mask-shadow fn-hide"></div>
@@ -67,7 +65,7 @@
     				<div class="line">
     					<span class="tag">性别</span>
     					<div class="select open">
-	    					<select class="big sex">
+	    					<select class="big gender">
 	    						<option value="">请选择</option>
 	    						<option value="0">男</option>
 	    						<option value="1">女</option>
@@ -81,22 +79,18 @@
     				<div class="line flex">
     					<span class="tag">验证码</span>
     					<input type="number" class="small code"/>
-    					<a class="send-code">发送验证码</a>
+    					<a class="send-code can">发送验证码</a>
     				</div>
     				<div class="line flex">
     					<span class="tag">所在地区</span>
     					<div class="select">
-	    					<select class="small province">
+	    					<select class="small provinceId">
 	    						<option value="">省份</option>
-	    						<option value="1">上海</option>
-	    						<option value="0">内蒙古</option>
 	    					</select>
     					</div>
     					<div class="select">
-	    					<select class="small city">
+	    					<select class="small cityId">
 	    						<option value="">市区</option>
-	    						<option value="0">浦东新区</option>
-	    						<option value="1">普陀区</option>
 	    					</select>
     					</div>
     				</div>
@@ -150,9 +144,9 @@
     			<div class="car"></div>
     			<div class="content-wrapper fn-clear">
     				<h2 class="red">恭喜您！</h2>
-    				<h4 class="red">雨眉兑换券</h4>
-					<h4 class="red">（价值70元）</h4>
-					<p class="txt">兑换码xxxxxx，中奖信息将发送到您的手机</p>
+    				<h4 class="red awards-name">雨眉兑换券</h4>
+					<h4 class="red">（价值<i class="awards-cost"></i>元）</h4>
+					<p class="txt">兑换码<span class="awards-code"></span>，中奖信息将发送到您的手机</p>
 					<p class="desc">使用方式：10月26日至11月7日下订，<br />付尾款时凭券兑换礼品</p>
 					<p class="explain">散客拼团活动将于10.27日-10.31日的每天20：00-21：00在商城开启，下订可享受2000元的购车优惠哦</p>
 					<a class="income">收入囊中</a>
@@ -165,48 +159,11 @@
     			<div class="car"></div>
     			<div class="content-wrapper fn-clear">
     				<div class="title-wrap">
-    					<p class="title red">您已获得价值150元的</p>
-						<p class="title red">E100定制双肩背包兑换券</p>
+    					<p class="title red">您已获得价值<i class="awards-cost"></i>元的</p>
+						<p class="title red"><i class="awards-name"></i></p>
 					</div>
 					<p class="head red">中奖名单</p>
-					<ul>
-						<li>
-							<span>test</span>
-							<span>双肩包</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-						<li>
-							<span>test</span>
-							<span>双肩</span>
-						</li>
-					</ul>
+					<ul></ul>
 					<div class="gradient"></div>
     			</div>
     		</div>
@@ -233,6 +190,7 @@
 			</div>
 			<img src="static/img/red-bag.png" class="bag transition-05"/>
 		</div>
+		<audio src="static/mp3/kaka.mp3" class="fn-hide" id="mp3"></audio>
 	</body>	
 	<!-- build:js -->
 	<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js"></script>

@@ -16,10 +16,15 @@
 .dialog .line{float:left;width: 100%;margin-bottom:30px;}
 .dialog .line.flex{display:flex;justify-content: space-between;}
 .dialog .tag{float:left;display:inline-block;font-size:28px;line-height:58px;}
-.dialog input,.dialog select{background-color: #fff;  font-size:28px; border:1px solid #7d7d7d;border-radius:5px;height:58px;line-height:56px;float:right;padding:0 10px;}
+.dialog input,.dialog select{background-color: #fff;  font-size:28px; border:1px solid #7d7d7d;border-radius:5px;height:58px;line-height:56px;float:right;padding:0 10px;
+-webkit-transition: all 0.2s ease;
+transition: all 0.2s ease;
+}
+.dialog input:focus,.dialog select:focus{border-color:#20a9ad;box-shadow:0 0 15px rgba(32,169,173,0.8);}
+.dialog .error{border-color:#bd0505;box-shadow:0 0 15px rgba(189,5,5,0.8);}
 .dialog .big{width: calc(100% - 80px);}
 .dialog .small{width:176px;}
-.dialog .send-code{color:#20a9ad;font-size:28px;line-height:58px;}
+.dialog .send-code{color:#20a9ad;font-size:28px;line-height:58px; display: inline-block;width: 146px;text-align: right;}
 .close{position: absolute;font-size:70px;color:#fff;opacity:0.8;right:-10px;top:-120px;}
 .select{position: relative;}
 .select:after{font-family: 'iconfont'; position: absolute;content:"\e600";font-size:24px;line-height:60px;top:0;right: 15px;color:#d6d6d6;
@@ -30,7 +35,8 @@ transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
 	-ms-transition: all 0.5s ease;
 	transition: all 0.5s ease;}
 .select.open:after{transform:rotate(180deg);}
-.dialog .error-msg{height: 50px;line-height: 50px;color:#BD0505;font-size:24px;text-align: center;width: 100%;}
+.dialog .error-msg{height: 50px;line-height: 50px;color:#BD0505;font-size:24px;text-align: center;width: 100%;visibility: hidden;}
+.dialog .error-msg.show{visibility: visible;}
 .submit{width:482px;height:80px;line-height: 80px;text-align: center;color:#fff;font-size: 42px;background-color: #bd0505;display: inline-block;border-radius:10px;}
 
 
