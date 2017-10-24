@@ -17,9 +17,9 @@
 				        var version = parseFloat(RegExp.$1);
 				        if(userAgent.indexOf("MX")>-1&&version>=5){
 				        	//alert(userAgent)
-				        	document.write('<meta name="viewport" content="width=750,minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">');
+				        	document.write('<meta name="viewport" content="width=750,minimum-scale = ' + scale + ', maximum-scale = ' + scale + ', target-densitydpi=device-dpi">');
 				        }else{
-				        	document.write(version > 2.3 ? '<meta name="viewport" content="width=750, minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">': '<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');
+				        	document.write(version > 2.3 ? '<meta name="viewport" content="width=750, minimum-scale = ' + scale + ', maximum-scale = ' + scale + ', target-densitydpi=device-dpi">': '<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');
 				        };
 				    } else {
 				        document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">');
@@ -211,7 +211,7 @@
     			</div>
     		</div>
     	</div>
-    	<div class="already">
+    	<div class="already fn-hide">
     		<a class="iconfont close">&#xe741;</a>
     		<div class="dialog-wrapper">
     			<div class="top">

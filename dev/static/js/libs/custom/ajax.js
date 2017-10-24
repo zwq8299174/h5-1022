@@ -1,64 +1,10 @@
-define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],function(t,c,b,l){
+define(['jquery'],function($){
 	return{
-		Post:function(obj){
-			//console.log('starPost');
-			/*
-			方法属性
-			obj.url 访问地址
-			obj.data 访问数据
-			obj.success 成功后地址
-			obj.error 错误后地址
-			obj.beforeSend 访问前
-			obj.complete 访问结束
-			*/
-			var suc = obj.success;
-			delete obj.success;
-			var loading = obj.loading;
-			delete obj.loading;
-			var postModel = {
-				url:'',
-				type: 'POST',
-				data:{},
-				dataType: 'json',
-				contentType: 'application/json',
-				success:function(e){
-					//……成功方法
-//					console.log('success'+e);
-					var result=e.code=='0'?true:false;
-					if(result){
-						suc(e);
-					}else if(e.code==-1){
-						
-					}else{
-//						$('body').dialog({
-//			            	className:'error-dialog',
-//			            	header:'错误信息',
-//			            	body:e.message,
-//			            	type:'error',
-//			            });
-					}
-				},
-				complete:function(e){
-					//console.log(e)
-					//……完成方法
-//					console.log('complete'+e);
-					if(loading!=null&&loading!=undefined&&loading!=''&loading.remove){
-						loading.body.loader.remove();
-					};
-				},
-				error:function(e){
-					//……错误方法
-//					console.log('error'+e);
-				},
-				beforeSend:function(e){
-//					console.log('error'+e);
-				}
-			};
-			postModel = t.extend(postModel,obj);
-			postModel.data = JSON.stringify(postModel.data);
-			//console.log(postModel);
-			//执行ajax
-			$.ajax(postModel);
+		extend: function(destination, source) { // 一个静态方法表示继承, 目标对象将拥有源对象的所有属性和方法
+			for (var property in source) {
+				destination[property] = source[property]; // 利用动态语言的特性, 通过赋值动态添加属性与方法
+			}
+			return destination; // 返回扩展后的对象
 		},
 		ajaxPost:function(obj) { 
 			//console.log('starPost');
@@ -79,9 +25,6 @@ define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],f
 				data:{},
 				dataType: 'json',
 				contentType: 'application/json',
-				headers:{
-					'token':c.check()
-				},
 				success:function(e){
 					//……成功方法
 //					console.log('success'+e);
@@ -89,21 +32,7 @@ define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],f
 					if(result){
 						suc(e);
 					}else{
-						if(e.code==-1||e.code==-99){
-							swal({
-								title: '登录信息异常',
-								confirmButtonText:'确定',
-							},function(){
-									window.location.href='oa://openLoginWindow';
-							});
-						}else{
-							swal({
-								title: '错误信息',
-								text:e.message,
-								type:'error',
-								confirmButtonText:'确定'
-							});
-						}
+						alert(e.msg);
 					}
 				},
 				complete:function(e){
@@ -114,18 +43,13 @@ define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],f
 				error:function(e){
 					//……错误方法
 //					console.log('error'+e);
-					swal({
-						title: '错误信息',
-						text:JSON.stringify(e),
-						type:'error',
-						confirmButtonText:'确定'
-					});
+					alert('服务器错误');
 				},
 				beforeSend:function(e){
 //					console.log('error'+e);
 				}
 			};
-			postModel = t.extend(postModel,obj);
+			postModel = this.extend(postModel,obj);
 			postModel.data = JSON.stringify(postModel.data);
 			//console.log(postModel);
 			//执行ajax
@@ -138,9 +62,6 @@ define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],f
 				url:'',
 				type: 'GET',
 				contentType: 'application/json',
-				headers:{
-					'token':c.check()
-				},
 				success:function(e){
 					//……成功方法
 					//console.log(e);
@@ -148,21 +69,7 @@ define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],f
 					if(result){
 						suc(e);
 					}else{
-						if(e.code==-1||e.code==-99){
-							swal({
-								title: '登录信息异常',
-								confirmButtonText:'确定',
-							},function(){
-								window.location.href='oa://openLoginWindow';
-							});
-						}else{
-							swal({
-								title: '错误信息',
-								text:e.message,
-								type:'error',
-								confirmButtonText:'确定'
-							});
-						}
+						alert(e.msg);
 					}
 				},
 				complete:function(e){
@@ -173,18 +80,13 @@ define(['tools','checkLogin','baseSet','local','loader','jquery','sweetalert'],f
 				error:function(e){
 					//……错误方法
 //					console.log('error'+e);
-					swal({
-						title: '错误信息',
-						text:JSON.stringify(e),
-						type:'error',
-						confirmButtonText:'确定'
-					});
+					alert('服务器错误');
 				},
 				beforeSend:function(e){
 //					console.log('error'+e);
 				}
 			};
-			getModel = t.extend(getModel,obj);
+			getModel = this.extend(getModel,obj);
 			//console.log(postModel);
 			//执行ajax
 			$.ajax(getModel);

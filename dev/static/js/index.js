@@ -1,4 +1,8 @@
-define(['jquery', 'tap', 'Marquee'], function() {
+define(['api','jquery', 'tap', 'Marquee'], function(api) {
+	
+	api.getProvince((data)=>{
+		console.log(data);
+	});
 	var $mask = $('.mask-shadow'),
 		$foem = $('.form-submit'),
 		bag,
