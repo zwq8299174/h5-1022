@@ -114,8 +114,17 @@ gulp.task('img', function() {
 		.pipe(gulp.dest('./' + projectDist + '/static/img/'));
 });
 
-gulp.task('indexJs', function() {
-	var name = 'index';
+gulp.task('ES6toES5', function() {
+	return gulp.src('./' + project + '/static/js/index.js')
+			.pipe(babel({
+		      presets: ['es2015']
+		    }))
+			.pipe(concat('index.ES5.js'))
+			.pipe(gulp.dest('./' + project + '/static/js/'));
+});
+
+gulp.task('indexJs',['ES6toES5'], function() {
+	var name = 'index.ES5';
 	return gulp.src('./' + project + '/static/js/*.js')
 		.pipe(amdOptimize(name, {
 			baseUrl: './' + project + '/static/js/',
