@@ -1,37 +1,87 @@
-define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
-	$(function() {
+'use strict';
+
+define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
+	$(function () {
 		var $mask = $('.mask-shadow'),
-			$foem = $('.form-submit'),
-			bag,
-			once = localStorage.getItem('once') == '1' ? true : false,
-			shark = false,
-			time = 60,
-			postData = {
-				name: '',
-				gender: '',
-				mobile: '',
-				code: '',
-				provinceId: '',
-				cityId: '',
-				couponId: ''
-			},
-			coupon = {},
-			mp3 = document.getElementById('mp3');
-		api.getProvince((data) => { //省份列表
-			let tpl = '';
-			for(let item of data) {
-				tpl += '<option value="' + item.id + '">' + item.name + '</option>';
-			};
+		    $foem = $('.form-submit'),
+		    bag,
+		    once = localStorage.getItem('once') == '1' ? true : false,
+		    shark = false,
+		    time = 60,
+		    postData = {
+			name: '',
+			gender: '',
+			mobile: '',
+			code: '',
+			provinceId: '',
+			cityId: '',
+			couponId: ''
+		},
+		    coupon = {},
+		    mp3 = document.getElementById('mp3');
+		api.getProvince(function (data) {
+			//省份列表
+			var tpl = '';
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					tpl += '<option value="' + item.id + '">' + item.name + '</option>';
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			;
 			$('.provinceId').append(tpl);
 		});
 
-		api.getWinnerList((data) => { //奖品列表
-			let tpl = '',
-				bar = '';
-			for(let item of data) {
-				tpl += '<li><span>' + item.name + '</span><span>' + item.price + '</span></li>';
-				bar += '<span>' + item.date + '，' + item.name + '，获得价值' + item.value + '元' + item.price + '。</span>';
-			};
+		api.getWinnerList(function (data) {
+			//奖品列表
+			var tpl = '',
+			    bar = '';
+			var _iteratorNormalCompletion2 = true;
+			var _didIteratorError2 = false;
+			var _iteratorError2 = undefined;
+
+			try {
+				for (var _iterator2 = data[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+					var item = _step2.value;
+
+					tpl += '<li><span>' + item.name + '</span><span>' + item.price + '</span></li>';
+					bar += '<span>' + item.date + '，' + item.name + '，获得价值' + item.value + '元' + item.price + '。</span>';
+				}
+			} catch (err) {
+				_didIteratorError2 = true;
+				_iteratorError2 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion2 && _iterator2.return) {
+						_iterator2.return();
+					}
+				} finally {
+					if (_didIteratorError2) {
+						throw _iteratorError2;
+					}
+				}
+			}
+
+			;
 			$('.prize-list ul').append(tpl).liMarquee({ //奖品列表滚动
 				direction: 'up',
 				scrollamount: 80
@@ -41,9 +91,10 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			});
 		});
 
-		$('.close').on('tap', function() { //关闭按钮
+		$('.close').on('tap', function () {
+			//关闭按钮
 			var $dialog = $(this).closest('.dialog').length == 0 ? $(this).closest('.already') : $(this).closest('.dialog');
-			if($dialog.hasClass('form-submit')){
+			if ($dialog.hasClass('form-submit')) {
 				time = 60;
 				shark = false;
 				$('.red-bag-rain').find('.time-bar').show();
@@ -53,10 +104,11 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			$mask.hide();
 		});
 
-		$('.tags').on('tap', '.tag', function() { //左侧标签点击
+		$('.tags').on('tap', '.tag', function () {
+			//左侧标签点击
 			var cless = $(this).data('dialog');
 			var height = $('.' + cless).outerHeight();
-			if(cless == 'prize-list') {
+			if (cless == 'prize-list') {
 				$('.' + cless).addClass('active');
 			};
 			$('.' + cless).css({
@@ -64,66 +116,89 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			}).show();
 			$mask.show();
 		});
-		$('.form-submit').find('input').on('input', function(e) {
-			if($(this).hasClass('mobile')){
+		$('.form-submit').find('input').on('input', function (e) {
+			if ($(this).hasClass('mobile')) {
 				var pat = new RegExp(/^1[3|4|5|7|8][0-9]{9}$/);
-				if(pat.test($(this).val())){
+				if (pat.test($(this).val())) {
 					$(this).removeClass('error');
 				}
-			}else{
-				if($(this).val() != '') {
+			} else {
+				if ($(this).val() != '') {
 					$(this).removeClass('error');
 				}
 			}
 		});
-		$('select').on('focus',function() {
+		$('select').on('focus', function () {
 			$(this).addClass('open');
 		});
-		$('select').on('blur',function() {
+		$('select').on('blur', function () {
 			$(this).removeClass('open');
 		});
-		$('.provinceId').on('change', function() {
+		$('.provinceId').on('change', function () {
 			postData.provinceId = $(this).val();
-			if($(this).val() != '') {
+			if ($(this).val() != '') {
 				$(this).removeClass('error');
 			};
-			api.getCity($(this).val(), (data) => {
+			api.getCity($(this).val(), function (data) {
 				console.log(data);
-				let tpl = '';
-				for(let item of data) {
-					tpl += '<option value="' + item.id + '">' + item.name + '</option>';
-				};
+				var tpl = '';
+				var _iteratorNormalCompletion3 = true;
+				var _didIteratorError3 = false;
+				var _iteratorError3 = undefined;
+
+				try {
+					for (var _iterator3 = data[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+						var item = _step3.value;
+
+						tpl += '<option value="' + item.id + '">' + item.name + '</option>';
+					}
+				} catch (err) {
+					_didIteratorError3 = true;
+					_iteratorError3 = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion3 && _iterator3.return) {
+							_iterator3.return();
+						}
+					} finally {
+						if (_didIteratorError3) {
+							throw _iteratorError3;
+						}
+					}
+				}
+
+				;
 				$('.cityId').append(tpl);
 			});
 		});
-		$('.cityId').on('change', function() {
+		$('.cityId').on('change', function () {
 			postData.cityId = $(this).val();
-			if($(this).val() != '') {
+			if ($(this).val() != '') {
 				$(this).removeClass('error');
 			}
 		});
-		$('.gender').on('change', function() {
-			if($(this).val() != '') {
+		$('.gender').on('change', function () {
+			if ($(this).val() != '') {
 				$(this).removeClass('error');
 			}
 			postData.gender = $(this).val();
 		});
 
 		function verify() {
-			let result = false;
-			let len = 0;
-			for(let name in postData) {
-				if(postData[name] == '') {
+			var result = false;
+			var len = 0;
+			for (var name in postData) {
+				if (postData[name] == '') {
 					$('.' + name).addClass('error');
 					len = len + 1;
-				}else{
-					if(name=='mobile'&&!postData[name].match(/^1[3|4|5|7|8][0-9]{9}$/)){
+				} else {
+					if (name == 'mobile' && !postData[name].match(/^1[3|4|5|7|8][0-9]{9}$/)) {
 						$('.' + name).addClass('error');
 						len = len + 1;
 					}
 				}
 			};
-			if(len > 0) {
+			if (len > 0) {
 				$('.error-msg').addClass('show');
 			} else {
 				result = true;
@@ -131,12 +206,13 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			};
 			return result;
 		};
-		$('.submit').on('tap', function() { //表单提交
+		$('.submit').on('tap', function () {
+			//表单提交
 			postData.name = $('.name').val();
 			postData.mobile = $('.mobile').val();
 			postData.code = $('.code').val();
-			if(verify()) {
-				api.binding(postData, (data) => {
+			if (verify()) {
+				api.binding(postData, function (data) {
 					once = true;
 					localStorage.setItem('once', '1');
 					$('.form-submit').hide();
@@ -158,15 +234,15 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 
 		function createBag() {
 			var $bag = $('<img src="./static/img/red-bag.png"/>'),
-				$wrap = $('.rain-wrap'),
-				num = RandomNum(140, 180);
+			    $wrap = $('.rain-wrap'),
+			    num = RandomNum(140, 180);
 			$bag.height(num);
 			$bag.css({
 				left: RandomNum(10, 90) + '%',
 				transform: 'rotate(' + RandomNum(-60, 60) + 'deg)'
 			});
 			$wrap.append($bag);
-			setTimeout(function() {
+			setTimeout(function () {
 				$bag.css({
 					'margin-top': $wrap.outerHeight() + 100 + 'px'
 				});
@@ -176,7 +252,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			$('.red-bag-rain').find('.time-bar').hide();
 			$('.red-bag-rain').find('.bag').addClass('big');
 		};
-		function rain(data){
+		function rain(data) {
 			$('.awards-name').text(data.price);
 			$('.awards-cost').text(data.value);
 			$('.awards-code').text(data.coupon);
@@ -185,33 +261,34 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			$rain.find('.time-bar').removeClass('end');
 			$rain.show();
 			bag = window.setInterval(createBag, 300);
-			if(window.DeviceMotionEvent) {
+			if (window.DeviceMotionEvent) {
 				window.addEventListener('devicemotion', deviceMotionHandler, false);
 			};
-			setTimeout(function() {
+			setTimeout(function () {
 				$rain.find('.time-bar').addClass('end');
 			}, 100);
-			setTimeout(function() {
+			setTimeout(function () {
 				window.clearInterval(bag);
 				window.removeEventListener('devicemotion', deviceMotionHandler, false);
 			}, 10000);
-			setTimeout(function() {
-				if(!shark) {
+			setTimeout(function () {
+				if (!shark) {
 					showBag();
 				}
 			}, 11000);
 		};
-		$('.join').on('tap', function() { //参加按钮点击
+		$('.join').on('tap', function () {
+			//参加按钮点击
 			mp3.play();
 			mp3.pause();
-			if(!once) {
-				if(postData.couponId == ''){
-					api.draw((data) => {
+			if (!once) {
+				if (postData.couponId == '') {
+					api.draw(function (data) {
 						postData.couponId = data.id;
 						coupon = data;
 						rain(data);
 					});
-				}else{
+				} else {
 					rain(coupon);
 				}
 			} else {
@@ -220,14 +297,14 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 				$('.already').css('margin-top', '-' + height / 2 + 'px').show();
 			};
 		});
-		$('.send-code').on('tap', function() {
+		$('.send-code').on('tap', function () {
 			var _this = $(this);
-			if(!_this.hasClass('can')) return false;
-			api.sendCode((data) => {
+			if (!_this.hasClass('can')) return false;
+			api.sendCode(function (data) {
 				_this.text(time + 's').removeClass('can');
 				time--;
-				var CD = setInterval(function() {
-					if(time > 0) {
+				var CD = setInterval(function () {
+					if (time > 0) {
 						_this.text(time + 's').removeClass('can');
 						time--;
 					} else {
@@ -237,20 +314,22 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 				}, 1000);
 			});
 		});
-		$('.red-bag-rain').find('.bag').on('tap', function() { //红包点击
+		$('.red-bag-rain').find('.bag').on('tap', function () {
+			//红包点击
 			var height = $('.prize').outerHeight();
 			$('.prize').css('margin-top', '-' + height / 2 + 'px').show();
 			$(this).closest('.red-bag-rain').hide();
 		});
-		$('.income').on('tap', function() { //收入囊中
+		$('.income').on('tap', function () {
+			//收入囊中
 			//$('.prize-list').removeClass('active').show();
 			$(this).closest('.prize').hide();
-			setTimeout(function() {
+			setTimeout(function () {
 				$('.form-submit').show();
-			},300);
+			}, 300);
 		});
 		//摇一摇功能
-		if(window.DeviceMotionEvent) {
+		if (window.DeviceMotionEvent) {
 			window.addEventListener('devicemotion', deviceMotionHandler, false);
 		}
 		//获取加速度信息
@@ -258,21 +337,24 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 		//而为了防止正常移动的误判，需要给该变化率设置一个合适的临界值。
 		var SHAKE_THRESHOLD = 4000;
 		var last_update = 0;
-		var x, y, z, last_x = 0,
-			last_y = 0,
-			last_z = 0;
+		var x,
+		    y,
+		    z,
+		    last_x = 0,
+		    last_y = 0,
+		    last_z = 0;
 
 		function deviceMotionHandler(eventData) {
 			var acceleration = eventData.accelerationIncludingGravity;
 			var curTime = new Date().getTime();
-			if((curTime - last_update) > 100) {
+			if (curTime - last_update > 100) {
 				var diffTime = curTime - last_update;
 				last_update = curTime;
 				x = acceleration.x;
 				y = acceleration.y;
 				z = acceleration.z;
 				var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
-				if(speed > SHAKE_THRESHOLD) {
+				if (speed > SHAKE_THRESHOLD) {
 					mp3.play();
 					shark = true;
 					window.clearInterval(bag);

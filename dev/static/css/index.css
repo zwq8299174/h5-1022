@@ -1,4 +1,4 @@
-.bottom-bar{position: absolute;bottom:0;width:100%;color:#fff;background-color: rgba(0,0,0,0.3);height: 66px;line-height: 66px;font-size:24px;}
+.bottom-bar{position: absolute !important;bottom:0;width:100%;color:#fff;background-color: rgba(0,0,0,0.3);height: 66px;line-height: 66px;font-size:24px;}
 
 .btn{display: inline-block;width:252px; height: 80px;line-height: 80px;text-align: center;font-size:42px;color:#bd0505;background-color: #fff;border-radius:10px;position: absolute;bottom:100px;left:50%; margin-left:-126px;}
 
@@ -74,7 +74,7 @@ transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
 .prize-list .title{line-height: 34px;font-size:28px;text-align: center;font-weight: bold;}
 .prize-list .content-wrapper{padding:80px 60px 0;}
 .prize-list .head{font-size:36px;}
-.prize-list ul{height:240px;overflow: hidden;background-color: #fff;}
+.prize-list ul{height:240px;overflow: hidden;background-color: #fff;position: relative;}
 .prize-list li{display: flex;width: 100%;justify-content: space-between;font-size:30px;line-height:40px;}
 .prize-list .gradient{height: 100px;width:calc(100% - 120px);background: linear-gradient( rgba(255,255,255,0),rgba(255,255,255,1));position: absolute;left:60px;bottom:60px;}
 
