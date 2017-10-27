@@ -26,7 +26,10 @@ requirejs.config({
 		'base64':'libs/other/base64.min',
 		'date':'libs/custom/date',
 		'tap':'libs/jquery/jquery.tap',
-		'Marquee':'libs/jquery/jquery.Marquee'
+		'Marquee':'libs/jquery/jquery.Marquee',
+		'wx':'weixin/jweixin-1.2.0',
+		'wxConfig':'weixin/wxConfig',
+		'getSign':'weixin/getSign'
 	},
 	// shim选项设定。模块间的依存关系定义。
 	shim: {
@@ -49,7 +52,11 @@ requirejs.config({
 		},
 		'Marquee':{
 			deps: ['jquery']
-		}
+		},
+		'wxConfig':{
+			deps: ['wx'],
+			exports: 'wxConfig'
+		},
 	},
 	//启动应用程序
 	deps: [

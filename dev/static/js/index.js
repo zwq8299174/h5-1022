@@ -12,14 +12,19 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 				mobile: '',
 				code: '',
 				provinceId: '',
-				cityId: '',
-				couponId: ''
+				cityId: '666'
 			},
 			coupon = {},
-			mp3 = document.getElementById('mp3');
+			mp3 = document.getElementById('mp3'),
+			loginCode;
+		api.login((data) => { 
+			console.log(data);
+			loginCode = data.code;
+		});
+		
 		api.getProvince((data) => { //省份列表
 			let tpl = '';
-			for(let item of data) {
+			for(let item of data.data) {
 				tpl += '<option value="' + item.id + '">' + item.name + '</option>';
 			};
 			$('.provinceId').append(tpl);
@@ -28,7 +33,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 		api.getWinnerList((data) => { //奖品列表
 			let tpl = '',
 				bar = '';
-			for(let item of data) {
+			for(let item of data.data) {
 				tpl += '<li><span>' + item.name + '</span><span>' + item.price + '</span></li>';
 				bar += '<span>' + item.date + '，' + item.name + '，获得价值' + item.value + '元' + item.price + '。</span>';
 			};
@@ -90,7 +95,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			api.getCity($(this).val(), (data) => {
 				console.log(data);
 				let tpl = '';
-				for(let item of data) {
+				for(let item of data.data) {
 					tpl += '<option value="' + item.id + '">' + item.name + '</option>';
 				};
 				$('.cityId').append(tpl);
@@ -136,15 +141,17 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			postData.mobile = $('.mobile').val();
 			postData.code = $('.code').val();
 			if(verify()) {
-				api.binding(postData, (data) => {
-					once = true;
-					localStorage.setItem('once', '1');
-					$('.form-submit').hide();
-					var $dialog = $('.prize-list');
-					var height = $dialog.outerHeight();
-					$dialog.removeClass('active');
-					$dialog.css('margin-top', '-' + height / 2 + 'px').show();
-				});
+				$('.form-submit').hide();
+				draw();
+//				api.binding(postData, (data) => {
+//					once = true;
+//					localStorage.setItem('once', '1');
+//					$('.form-submit').hide();
+//					var $dialog = $('.prize-list');
+//					var height = $dialog.outerHeight();
+//					$dialog.removeClass('active');
+//					$dialog.css('margin-top', '-' + height / 2 + 'px').show();
+//				});
 			}
 		});
 
@@ -201,28 +208,47 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 				}
 			}, 11000);
 		};
+		function draw(){
+			api.draw((data) => {
+				coupon = data;
+				rain(data);
+			});
+		};
 		$('.join').on('tap', function() { //参加按钮点击
 			mp3.play();
 			mp3.pause();
-			if(!once) {
-				if(postData.couponId == ''){
-					api.draw((data) => {
-						postData.couponId = data.id;
-						coupon = data;
-						rain(data);
-					});
-				}else{
-					rain(coupon);
-				}
-			} else {
+			if(loginCode==408){
+				$mask.show();
+				$('.form-submit').show();
+			}else if(loginCode==409){
+				alert('已达抽奖上限');
+			}else if(loginCode==410){
 				$mask.show();
 				var height = $('.prize').outerHeight();
 				$('.already').css('margin-top', '-' + height / 2 + 'px').show();
-			};
+			}else{
+				
+				draw();
+			}
+//			if(!once) {
+//				if(postData.couponId == ''){
+//					api.draw((data) => {
+//						postData.couponId = data.id;
+//						coupon = data;
+//						rain(data);
+//					});
+//				}else{
+//					rain(coupon);
+//				}
+//			} else {
+//				$mask.show();
+//				var height = $('.prize').outerHeight();
+//				$('.already').css('margin-top', '-' + height / 2 + 'px').show();
+//			};
 		});
 		$('.send-code').on('tap', function() {
 			var _this = $(this);
-			if(!_this.hasClass('can')) return false;
+			if(!_this.hasClass('can')||!$('.mobile').val().match(/^1[3|4|5|7|8][0-9]{9}$/)) return false;
 			api.sendCode((data) => {
 				_this.text(time + 's').removeClass('can');
 				time--;
@@ -246,7 +272,10 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			//$('.prize-list').removeClass('active').show();
 			$(this).closest('.prize').hide();
 			setTimeout(function() {
-				$('.form-submit').show();
+				var $dialog = $('.prize-list');
+				var height = $dialog.outerHeight();
+				$dialog.removeClass('active');
+				$dialog.css('margin-top', '-' + height / 2 + 'px').show();
 			},300);
 		});
 		//摇一摇功能

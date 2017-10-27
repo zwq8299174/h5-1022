@@ -28,12 +28,13 @@ define(['jquery'],function($){
 				success:function(e){
 					//……成功方法
 //					console.log('success'+e);
-					var result=e.code=='200'?true:false;
-					if(result){
-						suc(e.data);
-					}else{
-						alert(e.msg);
-					}          
+					suc(e);
+//					var result=e.code=='200'?true:false;
+//					if(result){
+//						suc(e);
+//					}else{
+//						alert(e.msg);
+//					}          
 				},
 				complete:function(e){
 					//console.log(e)

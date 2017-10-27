@@ -6,6 +6,14 @@
 //---------------------------------
 define(['ajax','baseSet'],function(a,b){
 	return{
+		login:function(suc){
+			a.ajaxPost({
+				url:b.postServer+'login',
+				success:function(data){
+					suc(data);
+				}
+			});
+		},
 		getProvince:function(suc){
 			a.ajaxPost({
 				url:b.postServer+'getProvinceList',
@@ -18,7 +26,7 @@ define(['ajax','baseSet'],function(a,b){
 			a.ajaxPost({
 				url:b.postServer+'getCityList',
 				data:{
-					provinceId:id
+					'provinceId':parseInt(id)
 				},
 				success:function(data){
 					suc(data);
@@ -27,7 +35,7 @@ define(['ajax','baseSet'],function(a,b){
 		},
 		binding:function(data,suc){
 			a.ajaxPost({
-				url:b.postServer+'binding',
+				url:b.postServer+'register',
 				data:data,
 				success:function(data){
 					suc(data);
