@@ -58,9 +58,12 @@ define(['ajax','baseSet'],function(a,b){
 				}
 			});
 		},
-		sendCode:function(suc){
+		sendCode:function(mobile,suc){
 			a.ajaxPost({
 				url:b.postServer+'sendCode',
+				data:{
+					mobile:mobile
+				},
 				success:function(data){
 					suc(data);
 				}

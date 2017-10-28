@@ -2,10 +2,12 @@
 
 define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 	$(function () {
+		//window.location.href = 'http://';
+		$('body').height($(window).height());
 		var $mask = $('.mask-shadow'),
 		    $foem = $('.form-submit'),
 		    bag,
-		    once = localStorage.getItem('once') == '1' ? true : false,
+		    raining = false,
 		    shark = false,
 		    time = 60,
 		    postData = {
@@ -14,11 +16,19 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			mobile: '',
 			code: '',
 			provinceId: '',
-			cityId: '',
-			couponId: ''
+			cityId: '666'
 		},
 		    coupon = {},
-		    mp3 = document.getElementById('mp3');
+		    mp3 = document.getElementById('mp3'),
+		    loginCode,
+		    loginInfo;
+		api.login(function (data) {
+			console.log(data);
+			loginInfo = data.data;
+			coupon = data;
+			loginCode = data.code;
+		});
+
 		api.getProvince(function (data) {
 			//省份列表
 			var tpl = '';
@@ -27,7 +37,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				for (var _iterator = data.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var item = _step.value;
 
 					tpl += '<option value="' + item.id + '">' + item.name + '</option>';
@@ -50,47 +60,48 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			;
 			$('.provinceId').append(tpl);
 		});
+		function getWinnerList() {
+			api.getWinnerList(function (data) {
+				//奖品列表
+				var tpl = '',
+				    bar = '';
+				var _iteratorNormalCompletion2 = true;
+				var _didIteratorError2 = false;
+				var _iteratorError2 = undefined;
 
-		api.getWinnerList(function (data) {
-			//奖品列表
-			var tpl = '',
-			    bar = '';
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
-
-			try {
-				for (var _iterator2 = data[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var item = _step2.value;
-
-					tpl += '<li><span>' + item.name + '</span><span>' + item.price + '</span></li>';
-					bar += '<span>' + item.date + '，' + item.name + '，获得价值' + item.value + '元' + item.price + '。</span>';
-				}
-			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
-			} finally {
 				try {
-					if (!_iteratorNormalCompletion2 && _iterator2.return) {
-						_iterator2.return();
+					for (var _iterator2 = data.data[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+						var item = _step2.value;
+
+						tpl += '<li><span>' + item.name.slice(0, 1) + '**</span><span>' + item.price + '</span></li>';
+						bar += '<span>' + item.date + '，' + item.name.slice(0, 1) + '**，获得价值' + item.value + '元' + item.price + '。</span>';
 					}
+				} catch (err) {
+					_didIteratorError2 = true;
+					_iteratorError2 = err;
 				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
+					try {
+						if (!_iteratorNormalCompletion2 && _iterator2.return) {
+							_iterator2.return();
+						}
+					} finally {
+						if (_didIteratorError2) {
+							throw _iteratorError2;
+						}
 					}
 				}
-			}
 
-			;
-			$('.prize-list ul').append(tpl).liMarquee({ //奖品列表滚动
-				direction: 'up',
-				scrollamount: 80
+				;
+				$('.prize-list ul').empty().append(tpl).liMarquee({ //奖品列表滚动
+					direction: 'up',
+					scrollamount: 80
+				});
+				$('.bottom-bar').empty().append(bar).liMarquee({ //底部滚动
+					scrollamount: 150
+				});
 			});
-			$('.bottom-bar').append(bar).liMarquee({ //底部滚动
-				scrollamount: 150
-			});
-		});
-
+		};
+		getWinnerList();
 		$('.close').on('tap', function () {
 			//关闭按钮
 			var $dialog = $(this).closest('.dialog').length == 0 ? $(this).closest('.already') : $(this).closest('.dialog');
@@ -128,6 +139,10 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				}
 			}
 		});
+		//$('.form-submit').find('input').on('keydown', function(e) {
+		//e.stopPropagation();
+		//e.preventDefault();
+		//});
 		$('select').on('focus', function () {
 			$(this).addClass('open');
 		});
@@ -147,7 +162,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				var _iteratorError3 = undefined;
 
 				try {
-					for (var _iterator3 = data[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					for (var _iterator3 = data.data[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
 						var item = _step3.value;
 
 						tpl += '<option value="' + item.id + '">' + item.name + '</option>';
@@ -183,7 +198,6 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			}
 			postData.gender = $(this).val();
 		});
-
 		function verify() {
 			var result = false;
 			var len = 0;
@@ -213,13 +227,14 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			postData.code = $('.code').val();
 			if (verify()) {
 				api.binding(postData, function (data) {
-					once = true;
-					localStorage.setItem('once', '1');
-					$('.form-submit').hide();
-					var $dialog = $('.prize-list');
-					var height = $dialog.outerHeight();
-					$dialog.removeClass('active');
-					$dialog.css('margin-top', '-' + height / 2 + 'px').show();
+					console.log(data);
+					loginCode = data.code;
+					if (data.code == 406) {
+						alert('验证码错误');
+					} else {
+						$('.form-submit').remove();
+						draw();
+					}
 				});
 			}
 		});
@@ -253,13 +268,18 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			$('.red-bag-rain').find('.bag').addClass('big');
 		};
 		function rain(data) {
-			$('.awards-name').text(data.price);
-			$('.awards-cost').text(data.value);
-			$('.awards-code').text(data.coupon);
+			if (data.code == 201) {
+				getWinnerList();
+				loginCode = 201;
+				$('.awards-name').text(data.data.price);
+				$('.awards-cost').text(data.data.value);
+				$('.awards-code').text(data.data.code);
+			};
 			$mask.show();
 			var $rain = $('.red-bag-rain');
 			$rain.find('.time-bar').removeClass('end');
 			$rain.show();
+			raining = true;
 			bag = window.setInterval(createBag, 300);
 			if (window.DeviceMotionEvent) {
 				window.addEventListener('devicemotion', deviceMotionHandler, false);
@@ -270,6 +290,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			setTimeout(function () {
 				window.clearInterval(bag);
 				window.removeEventListener('devicemotion', deviceMotionHandler, false);
+				raining = false;
 			}, 10000);
 			setTimeout(function () {
 				if (!shark) {
@@ -277,30 +298,66 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				}
 			}, 11000);
 		};
+		function draw() {
+			api.draw(function (data) {
+				coupon = data;
+				if (data.code == 409) {
+					$mask.show();
+					var height = $('.already').outerHeight();
+					$('.already').css('margin-top', '-' + height / 2 + 'px').show();
+				} else if (data.code == 410) {
+					$('.awards-name').text(data.data.price);
+					$('.awards-cost').text(data.data.value);
+					$('.awards-code').text(data.data.code);
+					$mask.show();
+					var height = $('.prize-list').outerHeight();
+					$('.prize-list').removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
+				} else if (data.code == 406) {
+					alert('验证码错误');
+				} else {
+					rain(data);
+				}
+			});
+		};
+		$('.again').on('tap', function () {
+			//再次抽奖
+			$('.no-prize').hide();
+			$('.bag').removeClass('big');
+			$('.time-bar').show().removeClass('end');
+			draw();
+		});
 		$('.join').on('tap', function () {
 			//参加按钮点击
 			mp3.play();
 			mp3.pause();
-			if (!once) {
-				if (postData.couponId == '') {
-					api.draw(function (data) {
-						postData.couponId = data.id;
-						coupon = data;
-						rain(data);
-					});
-				} else {
-					rain(coupon);
-				}
-			} else {
+			console.log(loginCode);
+			if (loginCode == 408) {
 				$mask.show();
-				var height = $('.prize').outerHeight();
+				$('.form-submit').show();
+			} else if (loginCode == 409) {
+				$mask.show();
+				var height = $('.already').outerHeight();
 				$('.already').css('margin-top', '-' + height / 2 + 'px').show();
-			};
+			} else if (loginCode == 410) {
+				console.log(coupon);
+				$('.awards-name').text(coupon.data.price);
+				$('.awards-cost').text(coupon.data.value);
+				$('.awards-code').text(coupon.data.code);
+				$mask.show();
+				var height = $('.prize-list').outerHeight();
+				$('.prize-list').removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
+			} else if (loginCode == 201) {
+				$mask.show();
+				var height = $('.prize-list').outerHeight();
+				$('.prize-list').removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
+			} else {
+				draw();
+			}
 		});
 		$('.send-code').on('tap', function () {
 			var _this = $(this);
-			if (!_this.hasClass('can')) return false;
-			api.sendCode(function (data) {
+			if (!_this.hasClass('can') || !$('.mobile').val().match(/^1[3|4|5|7|8][0-9]{9}$/)) return false;
+			api.sendCode($('.mobile').val(), function (data) {
 				_this.text(time + 's').removeClass('can');
 				time--;
 				var CD = setInterval(function () {
@@ -316,17 +373,25 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 		});
 		$('.red-bag-rain').find('.bag').on('tap', function () {
 			//红包点击
-			var height = $('.prize').outerHeight();
-			$('.prize').css('margin-top', '-' + height / 2 + 'px').show();
-			$(this).closest('.red-bag-rain').hide();
+			if (coupon.code == 201) {
+				var height = $('.prize').outerHeight();
+				$('.prize').css('margin-top', '-' + height / 2 + 'px').show();
+				$(this).closest('.red-bag-rain').hide();
+			} else {
+				var height = $('.no-prize').outerHeight();
+				$('.no-prize').css('margin-top', '-' + height / 2 + 'px').show();
+				$(this).closest('.red-bag-rain').hide();
+			}
 		});
-		$('.income').on('tap', function () {
-			//收入囊中
-			//$('.prize-list').removeClass('active').show();
-			$(this).closest('.prize').hide();
-			setTimeout(function () {
-				$('.form-submit').show();
-			}, 300);
+		$('.share').on('tap', function () {
+			//分享
+			$('.share-wrapper').show();
+		});
+		$('.share-wrapper').on('tap', '.close', function (e) {
+			//分享
+			e.stopPropagation();
+			e.preventDefault();
+			$('.share-wrapper').hide();
 		});
 		//摇一摇功能
 		if (window.DeviceMotionEvent) {
@@ -345,6 +410,8 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 		    last_z = 0;
 
 		function deviceMotionHandler(eventData) {
+			eventData.stopPropagation();
+			eventData.preventDefault();
 			var acceleration = eventData.accelerationIncludingGravity;
 			var curTime = new Date().getTime();
 			if (curTime - last_update > 100) {
@@ -354,7 +421,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				y = acceleration.y;
 				z = acceleration.z;
 				var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
-				if (speed > SHAKE_THRESHOLD) {
+				if (speed > SHAKE_THRESHOLD && raining) {
 					mp3.play();
 					shark = true;
 					window.clearInterval(bag);

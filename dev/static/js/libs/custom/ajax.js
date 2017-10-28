@@ -24,7 +24,7 @@ define(['jquery'],function($){
 				type: 'POST',
 				data:{},
 				dataType: 'json',
-				contentType: 'application/json',
+				contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
 				success:function(e){
 					//……成功方法
 //					console.log('success'+e);
@@ -51,8 +51,8 @@ define(['jquery'],function($){
 				}
 			};
 			postModel = this.extend(postModel,obj);
-			postModel.data = JSON.stringify(postModel.data);
-			console.log(postModel);
+//			postModel.data = JSON.stringify(postModel.data);
+//			console.log(postModel);
 			//执行ajax
 			$.ajax(postModel);
 		},
@@ -62,7 +62,7 @@ define(['jquery'],function($){
 			var getModel = {
 				url:'',
 				type: 'GET',
-				contentType: 'application/json',
+				contentType: 'x-www-form-urlencoded',
 				success:function(e){
 					//……成功方法
 					//console.log(e);
