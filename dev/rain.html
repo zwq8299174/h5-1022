@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -55,53 +54,6 @@
 			<a class="btn join">马上参与</a>
 		</div>
 		<div class="mask-shadow fn-hide"></div>
-		<div class="dialog form-submit fn-hide">
-			<a class="iconfont close">&#xe741;</a>
-			<div class="dialog-wrapper">
-				<div class="car"></div>
-				<div class="content-wrapper fn-clear">
-					<h3>填写资料,速领红包</h3>
-					<div class="line">
-						<span class="tag">姓名</span>
-						<input type="text" class="big name" />
-					</div>
-					<div class="line">
-						<span class="tag">性别</span>
-						<div class="select">
-							<select class="big gender">
-								<option value="">请选择</option>
-								<option value="0">男</option>
-								<option value="1">女</option>
-							</select>
-						</div>
-					</div>
-					<div class="line">
-						<span class="tag">手机</span>
-						<input type="number" class="big mobile" />
-					</div>
-					<div class="line flex">
-						<span class="tag">验证码</span>
-						<input type="number" class="small code" />
-						<a class="send-code can">发送验证码</a>
-					</div>
-					<div class="line flex">
-						<span class="tag">所在地区</span>
-						<div class="select">
-							<select class="small provinceId fn-text-overflow">
-								<option value="">省份</option>
-							</select>
-						</div>
-						<div class="select">
-							<select class="small cityId fn-text-overflow">
-								<option value="">市区</option>
-							</select>
-						</div>
-					</div>
-					<p class="error-msg fn-left">请正确填写资料</p>
-					<a class="submit">提交资料</a>
-				</div>
-			</div>
-		</div>
 		<div class="dialog awards fn-hide">
 			<a class="iconfont close">&#xe741;</a>
 			<div class="dialog-wrapper">
@@ -196,7 +148,7 @@
 			<div class="dialog-wrapper">
 				<div class="car"></div>
 				<div class="content-wrapper fn-clear">
-					<h4 class="red">您的操作过于频繁，请5秒后刷新页面再试</h4>
+					<h4 class="red">您的操作过于频繁，请稍后再试</h4>
 				</div>
 			</div>
 		</div>
@@ -224,15 +176,27 @@
 				</div>
 			</div>
 		</div>
+		<div class="red-bag-rain fn-hide">
+			<div class="time-bar">
+				<i class="iconfont">&#xe601;</i>
+				<div class="bar-wrapper">
+					<div class="bar"></div>
+				</div>
+			</div>
+			<div class="rain-wrap">
+			</div>
+			<img src="static/img/red-bag.png" class="bag transition-05" />
+		</div>
 		<div class="share-wrapper fn-hide">
 			<img src="static/img/guide2.png" />
 			<a class="iconfont close">&#xe741;</a>
 		</div>
+		<audio class="fn-hide" controls="controls" id="mp3" src="static/mp3/4092.mp3"></audio>
 	</body>
 	<!-- build:js -->
 	<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js"></script>
 	<script>
-		require(['./static/js/index.js']);
+		require(['./static/js/rain.js']);
 	</script>
 	<!-- endbuild -->
 

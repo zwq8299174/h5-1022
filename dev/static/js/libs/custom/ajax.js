@@ -28,13 +28,16 @@ define(['jquery'],function($){
 				success:function(e){
 					//……成功方法
 //					console.log('success'+e);
-					suc(e);
-//					var result=e.code=='200'?true:false;
-//					if(result){
-//						suc(e);
-//					}else{
-//						alert(e.msg);
-//					}          
+					if(e.code==401){
+						$('.mask-shadow').show();
+						var height = $('.often').outerHeight();
+						$('.often').css('margin-top', '-' + height / 2 + 'px').show();
+						setTimeout(function(){
+							$('.often,.mask-shadow').hide();
+						},1500);
+					}else{
+						suc(e);
+					}          
 				},
 				complete:function(e){
 					//console.log(e)
@@ -44,7 +47,9 @@ define(['jquery'],function($){
 				error:function(e){
 					//……错误方法
 //					console.log('error'+e);
-					alert('服务器错误');
+					$('.mask-shadow').show();
+					var height = $('.tanto').outerHeight();
+					$('.tanto').css('margin-top', '-' + height / 2 + 'px').show();
 				},
 				beforeSend:function(e){
 //					console.log('error'+e);

@@ -114,7 +114,7 @@ gulp.task('img', function() {
 		.pipe(gulp.dest('./' + projectDist + '/static/img/'));
 });
 
-gulp.task('ES6toES5', function() {
+gulp.task('indextoES5', function() {
 	return gulp.src('./' + project + '/static/js/index.js')
 			.pipe(babel({
 		      presets: ['es2015']
@@ -122,8 +122,16 @@ gulp.task('ES6toES5', function() {
 			.pipe(concat('index.ES5.js'))
 			.pipe(gulp.dest('./' + project + '/static/js/'));
 });
+gulp.task('raintoES5', function() {
+	return gulp.src('./' + project + '/static/js/rain.js')
+			.pipe(babel({
+		      presets: ['es2015']
+		    }))
+			.pipe(concat('rain.ES5.js'))
+			.pipe(gulp.dest('./' + project + '/static/js/'));
+});
 
-gulp.task('indexJs',['ES6toES5'], function() {
+gulp.task('indexJs',['indextoES5'], function() {
 	var name = 'index.ES5';
 	return gulp.src('./' + project + '/static/js/*.js')
 		.pipe(amdOptimize(name, {
@@ -133,11 +141,31 @@ gulp.task('indexJs',['ES6toES5'], function() {
 			include: false
 		}))
 		.pipe(uglify())
-		.pipe(concat('main.min.js'))
+		.pipe(concat('index.min.js'))
 		.pipe(insert.prepend(header))
 		.pipe(replace('{{ date }}', getDate(nowTime, 'yyyy-MM-dd HH:mm')))
 		.pipe(replace('{{ version }}', package.version))
 		.pipe(replace('{{ name }}', name))
+		.pipe(replace('"index.ES5",', ''))
+		.pipe(gulp.dest('./' + projectDist + '/static/js/'));
+});
+
+gulp.task('rainJs',['raintoES5'], function() {
+	var name = 'rain.ES5';
+	return gulp.src('./' + project + '/static/js/*.js')
+		.pipe(amdOptimize(name, {
+			baseUrl: './' + project + '/static/js/',
+			configFile: './' + project + '/static/js/config.js',
+			findNestedDependencies: false,
+			include: false
+		}))
+		.pipe(uglify())
+		.pipe(concat('rain.min.js'))
+		.pipe(insert.prepend(header))
+		.pipe(replace('{{ date }}', getDate(nowTime, 'yyyy-MM-dd HH:mm')))
+		.pipe(replace('{{ version }}', package.version))
+		.pipe(replace('{{ name }}', name))
+		.pipe(replace('"rain.ES5",', ''))
 		.pipe(gulp.dest('./' + projectDist + '/static/js/'));
 });
 
@@ -147,7 +175,7 @@ gulp.task('index', ['indexJs', 'cssmin','img'], function() {
 			'css': './static/css/main.min.css?v={{ version }}',
 			'js': {
 				src: [
-					['./static/js/require.min.js', './static/js/main.min.js?v={{ version }}']
+					['./static/js/require.min.js', './static/js/index.min.js?v={{ version }}']
 				],
 				tpl: '<script src="%s" data-main="%s"></script>'
 			}
@@ -159,6 +187,26 @@ gulp.task('index', ['indexJs', 'cssmin','img'], function() {
 		}))
 		.pipe(gulp.dest('./' + projectDist + '/'));
 });
+
+gulp.task('rain', ['rainJs'], function() {
+	return gulp.src('./' + project + '/rain.html')
+		.pipe(htmlreplace({
+			'css': './static/css/main.min.css?v={{ version }}',
+			'js': {
+				src: [
+					['./static/js/require.min.js', './static/js/rain.min.js?v={{ version }}']
+				],
+				tpl: '<script src="%s" data-main="%s"></script>'
+			}
+		}))
+		.pipe(replace('{{ version }}', randomString(10)))
+		.pipe(htmlmin({
+			minifyJS: true,
+			collapseWhitespace: true
+		}))
+		.pipe(gulp.dest('./' + projectDist + '/'));
+});
+
 
 function randomString(len) {　　
 	len = len || 32;　　

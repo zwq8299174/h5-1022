@@ -1,9 +1,7 @@
 define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 	$(function() {
-		//window.location.href = 'http://';
 		$('body').height($(window).height());
 		var $mask = $('.mask-shadow'),
-			$form = $('.form-submit'),
 			$prizeList = $('.prize-list'),
 			$prize = $('.prize'),
 			$noPrize = $('.no-prize'),
@@ -12,33 +10,11 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			raining = false,
 			shark = false,
 			time = 60,
-			postData = {
-				name: '',
-				gender: '',
-				mobile: '',
-				code: '',
-				provinceId: '',
-				cityId: ''
-			},
 			coupon = {},
 			loginCode,
-			loginInfo;
-		api.login((data) => { 
-			console.log(data);
-			loginInfo = data.data;
-			coupon = data;
-			loginCode = data.code;
-		});
-		
-		api.getProvince((data) => { //省份列表
-			let tpl = '';
-			for(let item of data.data) {
-				tpl += '<option value="' + item.id + '">' + item.name + '</option>';
-			};
-			$('.provinceId').append(tpl).find('option[value="20"]').prop('selected',true);
-			postData.provinceId = 20;
-			getCityList(20);
-		});
+			loginInfo,
+			mp3 = document.getElementById('mp3');
+		draw();
 		function getWinnerList(){
 			api.getWinnerList((data) => { //奖品列表
 				let tpl = '',
@@ -57,19 +33,6 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			});
 		};
 		getWinnerList();
-		function getCityList(val){
-			api.getCity(val, (data) => {
-				let tpl = '<option value="">市区</option>';
-				for(let item of data.data) {
-					tpl += '<option value="' + item.id + '">' + item.name + '</option>';
-				};
-				$('.cityId').empty().append(tpl);
-				if(val==20){
-					$('.cityId').find('option[value="219"]').prop('selected',true);
-					postData.cityId = 219;
-				}
-			});
-		};
 		$('.close').on('tap', function() { //关闭按钮
 			var $dialog = $(this).closest('.dialog').length == 0 ? $(this).closest('.already') : $(this).closest('.dialog');
 			if($dialog.hasClass('form-submit')){
@@ -92,89 +55,6 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 				'margin-top': '-' + height / 2 + 'px'
 			}).show();
 			$mask.show();
-		});
-		$form.find('input').on('input', function(e) {
-			if($(this).hasClass('mobile')){
-				var pat = new RegExp(/^1[3|4|5|7|8][0-9]{9}$/);
-				if(pat.test($(this).val())){
-					$(this).removeClass('error');
-				}
-			}else{
-				if($(this).val() != '') {
-					$(this).removeClass('error');
-				}
-			}
-		});
-		//$('.form-submit').find('input').on('keydown', function(e) {
-			//e.stopPropagation();
-			//e.preventDefault();
-		//});
-		$('select').on('focus',function() {
-			$(this).addClass('open');
-		});
-		$('select').on('blur',function() {
-			$(this).removeClass('open');
-		});
-		$('.provinceId').on('change', function() {
-			postData.provinceId = $(this).val();
-			if($(this).val() != '') {
-				$(this).removeClass('error');
-			};
-			getCityList($(this).val());
-			$('.cityId').val('');
-		});
-		$('.cityId').on('change', function() {
-			postData.cityId = $(this).val();
-			if($(this).val() != '') {
-				$(this).removeClass('error');
-			}
-		});
-		$('.gender').on('change', function() {
-			if($(this).val() != '') {
-				$(this).removeClass('error');
-			}
-			postData.gender = $(this).val();
-		});
-		function verify() {
-			let result = false;
-			let len = 0;
-			for(let name in postData) {
-				if(postData[name] == '') {
-					$('.' + name).addClass('error');
-					len = len + 1;
-				}else{
-					if(name=='mobile'&&!postData[name].match(/^1[3|4|5|7|8][0-9]{9}$/)){
-						$('.' + name).addClass('error');
-						len = len + 1;
-					}
-				}
-			};
-			if(len > 0) {
-				$('.error-msg').addClass('show');
-			} else {
-				result = true;
-				$('.error-msg').removeClass('show');
-			};
-			console.log(postData);
-			return result;
-		};
-		$('.submit').on('tap', function() { //表单提交
-			postData.name = $('.name').val();
-			postData.mobile = $('.mobile').val();
-			postData.code = $('.code').val();
-			if(verify()) {
-				api.binding(postData, (data) => {
-					console.log(data);
-					loginCode = data.code;
-					if(data.code==406){
-						alert('验证码错误');
-					}else{
-						//$form.remove();
-						//draw();
-						window.location.href = 'rain.html';
-					}
-				});
-			}
 		});
 
 		//红包雨
@@ -207,7 +87,6 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 		};
 		function rain(data){
 			if(data.code==201){
-				getWinnerList();
 				loginCode = 201;
 				$('.awards-name').text(data.data.price);
 				$('.awards-cost').text(data.data.value);
@@ -225,20 +104,22 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			setTimeout(function() {
 				$rain.find('.time-bar').addClass('end');
 			}, 100);
-			setTimeout(function() {
-				window.clearInterval(bag);
-				window.removeEventListener('devicemotion', deviceMotionHandler, false);
-				raining = false;
-			}, 10000);
-			setTimeout(function() {
-				if(!shark) {
+			if(!shark){
+				setTimeout(function() {
+					window.clearInterval(bag);
+					window.removeEventListener('devicemotion', deviceMotionHandler, false);
+					raining = false;
+					getWinnerList();
+				}, 10000);
+				setTimeout(function() {
 					showBag();
-				}
-			}, 11000);
+				}, 11000);
+			};
 		};
 		function draw(){
 			api.draw((data) => {
 				coupon = data;
+				loginCode = data.code;
 				if(data.code==409){
 					$mask.show();
 					var height = $already.outerHeight();
@@ -252,7 +133,10 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 					$prizeList.removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
 				}else if(data.code==406){
 					alert('验证码错误');
-				}else {
+				} else if(data.code==408){
+					window.location.href = 'index.html';
+				} else {
+					
 					rain(data);
 				}
 			});
@@ -263,6 +147,60 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 			$('.time-bar').show().removeClass('end');
 			draw();
 		});
+		$('.red-bag-rain').find('.bag').on('tap', function() { //红包点击
+			mp3.play();
+			if(coupon.code==201){
+				var height = $prize.outerHeight();
+				$prize.css('margin-top', '-' + height / 2 + 'px').show();
+				$(this).closest('.red-bag-rain').hide();
+			}else{
+				var height = $noPrize.outerHeight();
+				$noPrize.css('margin-top', '-' + height / 2 + 'px').show();
+				$(this).closest('.red-bag-rain').hide();
+			}
+		});
+		$('.share').on('tap', function() { //分享
+			$('.share-wrapper').show();
+		});
+		$('.share-wrapper').on('tap','.close', function(e) { //分享
+			e.stopPropagation();
+			e.preventDefault();
+			$('.share-wrapper').hide();
+		});
+		//摇一摇功能
+		//获取加速度信息
+		//通过监听上一步获取到的x, y, z 值在一定时间范围内的变化率，进行设备是否有进行晃动的判断。
+		//而为了防止正常移动的误判，需要给该变化率设置一个合适的临界值。
+		var SHAKE_THRESHOLD = 4000;
+		var last_update = 0;
+		var x, y, z, last_x = 0,
+			last_y = 0,
+			last_z = 0;
+
+		function deviceMotionHandler(eventData) {
+			eventData.stopPropagation();
+			eventData.preventDefault();
+			var acceleration = eventData.accelerationIncludingGravity;
+			var curTime = new Date().getTime();
+			if((curTime - last_update) > 100) {
+				var diffTime = curTime - last_update;
+				last_update = curTime;
+				x = acceleration.x;
+				y = acceleration.y;
+				z = acceleration.z;
+				var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+				if(speed > SHAKE_THRESHOLD&&raining) {
+					window.clearInterval(bag);
+					window.removeEventListener('devicemotion', deviceMotionHandler, false);
+					shark = true;
+					window.clearInterval(bag);
+					showBag();
+				}
+				last_x = x;
+				last_y = y;
+				last_z = z;
+			}
+		};
 		$('.join').on('tap', function() { //参加按钮点击
 			if(!loginCode) return;
 			if(loginCode==408){
@@ -288,42 +226,6 @@ define(['api', 'jquery', 'tap', 'Marquee'], function(api) {
 				window.location.href = 'rain.html';
 //				draw();
 			}
-		});
-		$('.send-code').on('tap', function() {
-			var _this = $(this);
-			if(!_this.hasClass('can')||!$('.mobile').val().match(/^1[3|4|5|7|8][0-9]{9}$/)) return false;
-			api.sendCode($('.mobile').val(),(data) => {
-				_this.text(time + 's').removeClass('can');
-				time--;
-				var CD = setInterval(function() {
-					if(time > 0) {
-						_this.text(time + 's').removeClass('can');
-						time--;
-					} else {
-						_this.text('发送验证码').addClass('can');
-						clearInterval(CD);
-					};
-				}, 1000);
-			});
-		});
-		$('.red-bag-rain').find('.bag').on('tap', function() { //红包点击
-			if(coupon.code==201){
-				var height = $prize.outerHeight();
-				$prize.css('margin-top', '-' + height / 2 + 'px').show();
-				$(this).closest('.red-bag-rain').hide();
-			}else{
-				var height = $noPrize.outerHeight();
-				$noPrize.css('margin-top', '-' + height / 2 + 'px').show();
-				$(this).closest('.red-bag-rain').hide();
-			}
-		});
-		$('.share').on('tap', function() { //分享
-			$('.share-wrapper').show();
-		});
-		$('.share-wrapper').on('tap','.close', function(e) { //分享
-			e.stopPropagation();
-			e.preventDefault();
-			$('.share-wrapper').hide();
 		});
 	});
 });

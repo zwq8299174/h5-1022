@@ -5,7 +5,11 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 		//window.location.href = 'http://';
 		$('body').height($(window).height());
 		var $mask = $('.mask-shadow'),
-		    $foem = $('.form-submit'),
+		    $form = $('.form-submit'),
+		    $prizeList = $('.prize-list'),
+		    $prize = $('.prize'),
+		    $noPrize = $('.no-prize'),
+		    $already = $('.already'),
 		    bag,
 		    raining = false,
 		    shark = false,
@@ -16,10 +20,9 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			mobile: '',
 			code: '',
 			provinceId: '',
-			cityId: '666'
+			cityId: ''
 		},
 		    coupon = {},
-		    mp3 = document.getElementById('mp3'),
 		    loginCode,
 		    loginInfo;
 		api.login(function (data) {
@@ -58,7 +61,9 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			}
 
 			;
-			$('.provinceId').append(tpl);
+			$('.provinceId').append(tpl).find('option[value="20"]').prop('selected', true);
+			postData.provinceId = 20;
+			getCityList(20);
 		});
 		function getWinnerList() {
 			api.getWinnerList(function (data) {
@@ -92,7 +97,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				}
 
 				;
-				$('.prize-list ul').empty().append(tpl).liMarquee({ //奖品列表滚动
+				$prizeList.find('ul').empty().append(tpl).liMarquee({ //奖品列表滚动
 					direction: 'up',
 					scrollamount: 80
 				});
@@ -102,61 +107,9 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			});
 		};
 		getWinnerList();
-		$('.close').on('tap', function () {
-			//关闭按钮
-			var $dialog = $(this).closest('.dialog').length == 0 ? $(this).closest('.already') : $(this).closest('.dialog');
-			if ($dialog.hasClass('form-submit')) {
-				time = 60;
-				shark = false;
-				$('.red-bag-rain').find('.time-bar').show();
-				$('.red-bag-rain').find('.bag').removeClass('big');
-			};
-			$dialog.hide();
-			$mask.hide();
-		});
-
-		$('.tags').on('tap', '.tag', function () {
-			//左侧标签点击
-			var cless = $(this).data('dialog');
-			var height = $('.' + cless).outerHeight();
-			if (cless == 'prize-list') {
-				$('.' + cless).addClass('active');
-			};
-			$('.' + cless).css({
-				'margin-top': '-' + height / 2 + 'px'
-			}).show();
-			$mask.show();
-		});
-		$('.form-submit').find('input').on('input', function (e) {
-			if ($(this).hasClass('mobile')) {
-				var pat = new RegExp(/^1[3|4|5|7|8][0-9]{9}$/);
-				if (pat.test($(this).val())) {
-					$(this).removeClass('error');
-				}
-			} else {
-				if ($(this).val() != '') {
-					$(this).removeClass('error');
-				}
-			}
-		});
-		//$('.form-submit').find('input').on('keydown', function(e) {
-		//e.stopPropagation();
-		//e.preventDefault();
-		//});
-		$('select').on('focus', function () {
-			$(this).addClass('open');
-		});
-		$('select').on('blur', function () {
-			$(this).removeClass('open');
-		});
-		$('.provinceId').on('change', function () {
-			postData.provinceId = $(this).val();
-			if ($(this).val() != '') {
-				$(this).removeClass('error');
-			};
-			api.getCity($(this).val(), function (data) {
-				console.log(data);
-				var tpl = '';
+		function getCityList(val) {
+			api.getCity(val, function (data) {
+				var tpl = '<option value="">市区</option>';
 				var _iteratorNormalCompletion3 = true;
 				var _didIteratorError3 = false;
 				var _iteratorError3 = undefined;
@@ -183,8 +136,67 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				}
 
 				;
-				$('.cityId').append(tpl);
+				$('.cityId').empty().append(tpl);
+				if (val == 20) {
+					$('.cityId').find('option[value="219"]').prop('selected', true);
+					postData.cityId = 219;
+				}
 			});
+		};
+		$('.close').on('tap', function () {
+			//关闭按钮
+			var $dialog = $(this).closest('.dialog').length == 0 ? $(this).closest('.already') : $(this).closest('.dialog');
+			if ($dialog.hasClass('form-submit')) {
+				time = 60;
+				shark = false;
+				$('.red-bag-rain').find('.time-bar').show();
+				$('.red-bag-rain').find('.bag').removeClass('big');
+			};
+			$dialog.hide();
+			$mask.hide();
+		});
+
+		$('.tags').on('tap', '.tag', function () {
+			//左侧标签点击
+			var cless = $(this).data('dialog');
+			var height = $('.' + cless).outerHeight();
+			if (cless == 'prize-list') {
+				$('.' + cless).addClass('active');
+			};
+			$('.' + cless).css({
+				'margin-top': '-' + height / 2 + 'px'
+			}).show();
+			$mask.show();
+		});
+		$form.find('input').on('input', function (e) {
+			if ($(this).hasClass('mobile')) {
+				var pat = new RegExp(/^1[3|4|5|7|8][0-9]{9}$/);
+				if (pat.test($(this).val())) {
+					$(this).removeClass('error');
+				}
+			} else {
+				if ($(this).val() != '') {
+					$(this).removeClass('error');
+				}
+			}
+		});
+		//$('.form-submit').find('input').on('keydown', function(e) {
+		//e.stopPropagation();
+		//e.preventDefault();
+		//});
+		$('select').on('focus', function () {
+			$(this).addClass('open');
+		});
+		$('select').on('blur', function () {
+			$(this).removeClass('open');
+		});
+		$('.provinceId').on('change', function () {
+			postData.provinceId = $(this).val();
+			if ($(this).val() != '') {
+				$(this).removeClass('error');
+			};
+			getCityList($(this).val());
+			$('.cityId').val('');
 		});
 		$('.cityId').on('change', function () {
 			postData.cityId = $(this).val();
@@ -218,6 +230,7 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				result = true;
 				$('.error-msg').removeClass('show');
 			};
+			console.log(postData);
 			return result;
 		};
 		$('.submit').on('tap', function () {
@@ -232,8 +245,9 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 					if (data.code == 406) {
 						alert('验证码错误');
 					} else {
-						$('.form-submit').remove();
-						draw();
+						//$form.remove();
+						//draw();
+						window.location.href = 'rain.html';
 					}
 				});
 			}
@@ -303,15 +317,15 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 				coupon = data;
 				if (data.code == 409) {
 					$mask.show();
-					var height = $('.already').outerHeight();
-					$('.already').css('margin-top', '-' + height / 2 + 'px').show();
+					var height = $already.outerHeight();
+					$already.css('margin-top', '-' + height / 2 + 'px').show();
 				} else if (data.code == 410) {
 					$('.awards-name').text(data.data.price);
 					$('.awards-cost').text(data.data.value);
 					$('.awards-code').text(data.data.code);
 					$mask.show();
-					var height = $('.prize-list').outerHeight();
-					$('.prize-list').removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
+					var height = $prizeList.outerHeight();
+					$prizeList.removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
 				} else if (data.code == 406) {
 					alert('验证码错误');
 				} else {
@@ -321,37 +335,36 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 		};
 		$('.again').on('tap', function () {
 			//再次抽奖
-			$('.no-prize').hide();
+			$noPrize.hide();
 			$('.bag').removeClass('big');
 			$('.time-bar').show().removeClass('end');
 			draw();
 		});
 		$('.join').on('tap', function () {
 			//参加按钮点击
-			mp3.play();
-			mp3.pause();
-			console.log(loginCode);
+			if (!loginCode) return;
 			if (loginCode == 408) {
 				$mask.show();
-				$('.form-submit').show();
+				$form.show();
 			} else if (loginCode == 409) {
 				$mask.show();
-				var height = $('.already').outerHeight();
-				$('.already').css('margin-top', '-' + height / 2 + 'px').show();
+				var height = $already.outerHeight();
+				$already.css('margin-top', '-' + height / 2 + 'px').show();
 			} else if (loginCode == 410) {
 				console.log(coupon);
 				$('.awards-name').text(coupon.data.price);
 				$('.awards-cost').text(coupon.data.value);
 				$('.awards-code').text(coupon.data.code);
 				$mask.show();
-				var height = $('.prize-list').outerHeight();
-				$('.prize-list').removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
+				var height = $prizeList.outerHeight();
+				$prizeList.removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
 			} else if (loginCode == 201) {
 				$mask.show();
-				var height = $('.prize-list').outerHeight();
-				$('.prize-list').removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
+				var height = $prizeList.outerHeight();
+				$prizeList.removeClass('active').css('margin-top', '-' + height / 2 + 'px').show();
 			} else {
-				draw();
+				window.location.href = 'rain.html';
+				//				draw();
 			}
 		});
 		$('.send-code').on('tap', function () {
@@ -374,12 +387,12 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 		$('.red-bag-rain').find('.bag').on('tap', function () {
 			//红包点击
 			if (coupon.code == 201) {
-				var height = $('.prize').outerHeight();
-				$('.prize').css('margin-top', '-' + height / 2 + 'px').show();
+				var height = $prize.outerHeight();
+				$prize.css('margin-top', '-' + height / 2 + 'px').show();
 				$(this).closest('.red-bag-rain').hide();
 			} else {
-				var height = $('.no-prize').outerHeight();
-				$('.no-prize').css('margin-top', '-' + height / 2 + 'px').show();
+				var height = $noPrize.outerHeight();
+				$noPrize.css('margin-top', '-' + height / 2 + 'px').show();
 				$(this).closest('.red-bag-rain').hide();
 			}
 		});
@@ -393,44 +406,5 @@ define(['api', 'jquery', 'tap', 'Marquee'], function (api) {
 			e.preventDefault();
 			$('.share-wrapper').hide();
 		});
-		//摇一摇功能
-		if (window.DeviceMotionEvent) {
-			window.addEventListener('devicemotion', deviceMotionHandler, false);
-		}
-		//获取加速度信息
-		//通过监听上一步获取到的x, y, z 值在一定时间范围内的变化率，进行设备是否有进行晃动的判断。
-		//而为了防止正常移动的误判，需要给该变化率设置一个合适的临界值。
-		var SHAKE_THRESHOLD = 4000;
-		var last_update = 0;
-		var x,
-		    y,
-		    z,
-		    last_x = 0,
-		    last_y = 0,
-		    last_z = 0;
-
-		function deviceMotionHandler(eventData) {
-			eventData.stopPropagation();
-			eventData.preventDefault();
-			var acceleration = eventData.accelerationIncludingGravity;
-			var curTime = new Date().getTime();
-			if (curTime - last_update > 100) {
-				var diffTime = curTime - last_update;
-				last_update = curTime;
-				x = acceleration.x;
-				y = acceleration.y;
-				z = acceleration.z;
-				var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
-				if (speed > SHAKE_THRESHOLD && raining) {
-					mp3.play();
-					shark = true;
-					window.clearInterval(bag);
-					showBag();
-				}
-				last_x = x;
-				last_y = y;
-				last_z = z;
-			}
-		};
 	});
 });

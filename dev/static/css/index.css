@@ -56,9 +56,9 @@ transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
 .already{width:646px;position: absolute;z-index: 1050; left:50%;top:50%;margin-left:-323px;margin-top: -435px;border-radius:10px;border:10px solid #bd0505;background:#fff;}
 .already .top{position: relative;}
 .already .top .car{background: url(../img/car.png) top left no-repeat;width: 393px;height:192px;position: absolute;left:0px;top:0px;}
-.already .content-wrapper{line-height: 48px;font-size:30px;padding:70px 50px 0;}
+.already .content-wrapper,.alert .content-wrapper{line-height: 48px;font-size:30px;padding:70px 50px 0;}
 .already .dialog-wrapper{text-align: center;padding-bottom: 70px;}
-.already .dialog-wrapper h4{font-size:40px;line-height:50px;}
+.already h4,.alert h4{font-size:40px;line-height:50px;}
 .dialog .share{width: 254px;height: 80px;text-align: center;line-height: 80px;border-radius:10px;background-color: #bd0505;color:#fff;display: inline-block;margin-top: 80px;font-size:36px;}
 
 .prize .dialog-wrapper,.no-prize .dialog-wrapper{padding-bottom:30px;}
